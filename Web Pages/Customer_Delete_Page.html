@@ -1,0 +1,138 @@
+
+
+<html>
+	
+	<head>
+		<title> Update Customer Info </title>
+		 <link rel = 'stylesheet' type = 'text/css' href = 'http://localhost/Website/CSS/page_style_1.css'>
+	</head>
+	
+	<body>
+	
+	<script type = "text/javascript">
+
+			<!--
+	
+				
+
+	
+				function validation()
+				{
+					
+					var d_firstname = document.getElementById("d_firstname");
+					var d_ssn = document.getElementById("d_ssn");
+					
+
+					var error_message = document.getElementById("error_message_area");
+		
+					var name_pattern = /^[a-zA-Z.\-_\s]+$/;
+					var ssn_pattern = /^[0-9]{15}$/
+					
+					if(d_firstname.value.length == 0 && d_ssn.value.length == 0)
+
+					{
+						error_message_area.innerHTML = "Specify either the Customer's SSN, name or both";
+						return false;
+					}
+					else if(d_firstname.value.length != 0 && !d_firstname.value.match(name_pattern))
+					{
+						error_message_area.innerHTML = "The first name of the customer you specify needs to be valid";
+						return false;
+					}
+					else if(d_ssn.value.length != 0 && !d_ssn.value.match(ssn_pattern))
+					{
+						error_message_area.innerHTML = "The SSN name of the customer you specify needs to be valid";
+						return false;
+					}
+					
+					
+		//SEND FORM DATA
+		
+		var ajax_object;//Variable used to interact with the server.
+		
+		try
+		{
+			ajax_object = new XMLHttpRequest();
+		}
+		catch(ajax_exception)
+		{
+			try
+			{
+				ajax_object = new ActiveXObject("Msxml2.XMLHTTP");
+			}
+			catch(another_ajax_exception)
+			{
+				try
+				{
+					ajax_object = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				catch(final_exception)
+				{
+					return false;
+				}
+			}
+		}
+		
+		ajax_object.onreadystatechange = function()
+		{
+			if(ajax_object.readyState == 4)
+			{
+				
+					window.location = ajax_object.responseText;//Redirect to another page.
+			}
+		}
+		
+		var phpScriptURL = "http://localhost/Website/Scripting/Delete_Script.php";
+				
+		var requestParameters = "d_firstname="+d_firstname.value+"&d_ssn="+d_ssn.value;
+		
+		var url = phpScriptURL+"?"+requestParameters;
+		ajax_object.open("GET",url,true);
+		ajax_object.send();
+		
+		
+	}	
+//-->
+
+</script>
+	
+	
+	<div name = 'center' style = "background: white; width:815px; height:800px;background-image: url(http://localhost/Website/Resources/Images/delete_page.png) ">
+	
+	
+	<ul>
+		
+	
+	<li> <a href = "http://localhost/Website/index.php"> New Cutomer</a></li>
+	<li> <a href = "http://localhost/Website/Web Pages/Customer_Search_Page.html"> Search Customer</a></li>
+	<li> <a href = "http://localhost/Website/Scripting/Customers_List.php"> All Customers </a></li>
+	<li> <a href = "http://localhost/Website/Scripting/Update_Info_Page.php"> Update customer info </a></li>
+	<li> <a href = "http://localhost/Website/Web Pages/Customer_Delete_Page.html"> Delete customer info</a></li>
+	
+	</ul>
+	
+	
+	
+	<table style = "position:absolute; margin-top:250px; margin-left : 50px"
+				cellspacing = "15px" cellpadding = '20'>
+				
+				<tr> <td> <label id = 'label'> SSN </label> </td><td> <input id = 'd_ssn' maxlength = '15' class = 'input'  style = 'border-radius:5px;'/> </td></tr>
+			    <tr> <td> <label id = 'label'> First name </label> </td><td> <input id = 'd_firstname' class ='input'   style = 'border-radius:5px;'/> </td></tr>
+	</table>
+	
+	
+	<div id = "error_message_area"style = "font-family:calibri;font-size:12;text-align:left; color:red;float:left; width:50%; height:12%;
+	position: absolute; margin-top: 390px; margin-left: 50px;">
+	</div>
+	
+	<div style = "position:absolute; margin-top:410px; margin-left : 340px">
+    <input type = "submit" value = "   Delete Customer   " style = "float:right;margin-top:10%;" onclick = "validation()" />
+	</div>
+	
+	
+	</div>
+	
+	
+
+	</body>
+</html>
